@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = '0.09';
 
-use parent 'Alien::Base';
+use base qw(Alien::Base);
 
 1;
 
@@ -48,4 +48,3 @@ This library provides an alien wrapper for OpenSSL.
 =head1 SEE ALSO
 
 OpenSSL(1), Crypt::OpenSSL::X509, Alien::Base
-

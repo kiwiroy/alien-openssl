@@ -1,0 +1,38 @@
+use alienfile;
+use constant _win => $^O eq 'MSWin32';
+
+plugin 'PkgConfig' => (
+  pkg_name => 'openssl',
+);
+plugin 'PkgConfig' => (
+  pkg_name => 'libssl',
+);
+plugin 'PkgConfig' => (
+  pkg_name => 'libcrypto',
+);
+
+meta->interpolator->add_helper(config => sub {
+  my $config = _win ? 'sh config' : './config';
+  return $config;
+});
+
+share {
+  plugin 'Download' => (
+    url => 'file:///Users/hrards/code/alien-openssl/openssl-1.1.0f.tar.gz'
+  );
+  plugin 'Download' => (
+      url => 'ftp://ftp.openssl.org/source/',
+      filter  => qr/^openssl-([\d\.]+\w?).tar\.gz$/,
+      version => qr/^openssl-([\d\.]+\w?).tar\.gz$/
+    );
+
+  plugin Extract => 'tar.gz';
+
+  plugin 'Build::MSYS';
+
+  build [
+    '%{config} no-shared --prefix=%{.install.prefix}',
+    '%{make}',
+    '%{make} install_sw'
+ ];
+}
