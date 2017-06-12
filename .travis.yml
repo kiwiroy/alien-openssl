@@ -12,6 +12,8 @@ perl:
   - "5.10"
   - "5.8"
 env:
+  global:
+    - AUTHOR_TESTING=1
   matrix:
     - ALIEN_INSTALL_TYPE=share
     - ALIEN_INSTALL_TYPE=system
@@ -20,7 +22,7 @@ before_install:
   - perlbrew list
   - cpanm --version
   - cpanm --showdeps .
-  - cpanm --quiet --installdeps --notests .
+  - cpanm --quiet --installdeps --notest .
 install:
   - env | sort
 script:
