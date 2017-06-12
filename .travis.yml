@@ -12,15 +12,16 @@ perl:
   - "5.10"
   - "5.8"
 env:
-  global:
-    - ALIEN_BASE_NO_ABMB=1
-    - AUTHOR_TESTING=1
   matrix:
     - ALIEN_INSTALL_TYPE=share
     - ALIEN_INSTALL_TYPE=system
-install:
+before_install:
+  - env | sort
   - perlbrew list
+  - cpanm --version
   - cpanm --showdeps .
   - cpanm --quiet --installdeps --notests .
+install:
+  - env | sort
 script:
   - perl Makefile.PL && make && make test
