@@ -19,7 +19,5 @@ env:
     - ALIEN_INSTALL_TYPE=system
 install:
   - perlbrew list
-  - which cpanm
-  - perlbrew install-cpanm
   - cpanm -qn Alien::Build
   - cpanm --installdeps -v .
