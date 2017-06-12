@@ -19,7 +19,9 @@ my %WriteMakefileArgs = (
 if (eval "use Alien::Build::MM; 1;") {
   my $abmm = Alien::Build::MM->new;
   %WriteMakefileArgs = $abmm->mm_args(%WriteMakefileArgs);
-  eval "sub MY::postamble { $abmm->postamble; }";
+
+  no strict 'refs';
+  *{"MY::postamble"} = sub { $abmm->mm_postamble; };
 }
 
 WriteMakefile(%WriteMakefileArgs);

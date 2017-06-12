@@ -16,7 +16,12 @@ env:
     - ALIEN_INSTALL_TYPE=share
     - ALIEN_INSTALL_TYPE=system
 before_install:
+  - env | sort
   - perlbrew list
   - cpanm --version
   - cpanm --showdeps .
-  - cpanm --installdeps -v .
+  - cpanm --quiet --installdeps --notests .
+install:
+  - env | sort
+script:
+  - perl Makefile.PL && make && make test
