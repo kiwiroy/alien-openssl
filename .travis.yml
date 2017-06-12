@@ -19,4 +19,4 @@ env:
     - ALIEN_INSTALL_TYPE=system
 install:
   - cpanm -qn Alien::Build
-  - cpanm --installdeps -qn .
+  - cpanm --installdeps .
