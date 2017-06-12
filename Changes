@@ -1,4 +1,6 @@
 Changes for Alien::OpenSSL
+* 0.10
+- upgrade to Alien::Build 0.44
 
 * 0.09
 - require higher Alien::Base version due to test bug

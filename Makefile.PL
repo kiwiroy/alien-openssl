@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-
+use constant _win => $^O eq 'MSWin32';
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
@@ -12,9 +12,12 @@ my %WriteMakefileArgs = (
     'Test::Alien' => 0,
   },
   PREREQ_PM => {
-    'Alien::Build' => 0.43,
+    'Alien::Build' => 0.44,
   }
 );
+
+$WriteMakefileArgs{BUILD_REQUIRES}{'Alien::MSYS'} = 0 if _win;
+$WriteMakefileArgs{BUILD_REQUIRES}{'Test::Pod'} = '1.00' if $ENV{AUTHOR_TESTING};
 
 if (eval "use Alien::Build::MM; 1;") {
   my $abmm = Alien::Build::MM->new;
