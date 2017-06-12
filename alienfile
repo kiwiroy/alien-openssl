@@ -7,6 +7,7 @@ use constant _win => $^O eq 'MSWin32';
 configure {
   requires 'Test::Alien';
   requires 'Test::Pod' if $ENV{AUTHOR_TESTING};
+  requires 'Alien::MSYS' if _win;
 };
 
 plugin 'PkgConfig' => (
