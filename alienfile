@@ -1,29 +1,61 @@
 use alienfile;
+use Alien::Build::Util qw( _destdir_prefix );
+use Data::Dumper;
+use Path::Tiny;
 use constant _win => $^O eq 'MSWin32';
+
+configure {
+  requires 'Test::Alien';
+};
 
 plugin 'PkgConfig' => (
   pkg_name => 'openssl',
 );
-plugin 'PkgConfig' => (
-  pkg_name => 'libssl',
-);
-plugin 'PkgConfig' => (
-  pkg_name => 'libcrypto',
-);
+plugin 'Probe::CommandLine' => (
+  command   => $_,
+  secondary => 1,
+) for qw( c_rehash openssl );
 
 meta->interpolator->add_helper(config => sub {
   my $config = _win ? 'sh config' : './config';
   return $config;
 });
 
+## while openssl appears to support DESTDIR
+## builds fail with
+## nothing was installed into destdir at .../Alien/Build/Plugin/Core/Gather.pm line 46.
+## meta_prop->{destdir} = 1;
+
+meta->before_hook(
+  gather_share => sub {
+    my $build = shift;
+    my $prefix  = $build->runtime_prop->{prefix};
+    my $dprefix = $build->install_prop->{prefix};
+    my $stage = Path::Tiny->new($dprefix);
+    my $pkgconf = $stage->child('lib/pkgconfig');
+    $build->log("replacing '$dprefix' with '$prefix' in $pkgconf/*.pc files");
+    foreach my $pc_file ($pkgconf->children(qr/\.pc$/)) {
+      ## do an in-place edit
+      local $^I = '.bak';
+      local $|  = 1;
+      local @ARGV = ("$pc_file");
+      while (<>) {
+        s/$dprefix/$prefix/;
+        print;
+      }
+    }
+    ## cleanup
+    $_->remove() for $pkgconf->children(qr/\.pc\.bak$/);
+  }
+);
+
 share {
-  plugin 'Download' => (
-    url => 'file:///Users/hrards/code/alien-openssl/openssl-1.1.0f.tar.gz'
-  );
   plugin 'Download' => (
       url => 'ftp://ftp.openssl.org/source/',
       filter  => qr/^openssl-([\d\.]+\w?).tar\.gz$/,
-      version => qr/^openssl-([\d\.]+\w?).tar\.gz$/
+      version => qr/^openssl-([\d\.]+\w?).tar\.gz$/,
+      scheme => 'ftp',
+      ssl => 0, ## that would require bootstrapping.
     );
 
   plugin Extract => 'tar.gz';
