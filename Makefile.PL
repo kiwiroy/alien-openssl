@@ -12,7 +12,7 @@ my %WriteMakefileArgs = (
     'Test::Alien' => 0,
   },
   PREREQ_PM => {
-    'Alien::Build' => 0.41,
+    'Alien::Build' => 0.43,
   }
 );
 

@@ -17,8 +17,8 @@ env:
   matrix:
     - ALIEN_INSTALL_TYPE=share
     - ALIEN_INSTALL_TYPE=system
-install:
+before_install:
   - perlbrew list
-  - cpanm --showdeps .
-  - cpanm -qn Alien::Build
-  - cpanm --installdeps -v .
+  - cpanm --version
+  - cpanm --showdeps --with-configure .
+  - cpanm --installdeps  --with-configure -v .
