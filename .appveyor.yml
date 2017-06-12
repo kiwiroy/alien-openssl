@@ -9,10 +9,12 @@ environment:
 install:
   - 'call .appveyor.cmd perl_setup'
   - '%perl% -V'
-  - '%cpanm% --installdeps -n --with-develop --with-recommends .'
+  - '%cpanm% --showdeps --with-develop --with-recommends --with-configure .'
+  - '%cpanm% --installdeps -n --with-develop --with-recommends --with-configure .'
 
 build: off
 
 test_script:
   - '%perl% Makefile.PL'
   - '%make%'
+  - '%make% test'
