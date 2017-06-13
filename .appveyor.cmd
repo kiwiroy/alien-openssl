@@ -30,6 +30,7 @@ if "%perl_type%" == "cygwin" (
 )
 for /f "usebackq delims=" %%d in (`perl -MConfig -e"print $Config{make}"`) do set "make=%%d"
 set "perl=perl"
+set "PERL=%perl%"
 set "cpanm=call .appveyor.cmd cpanm"
 set "cpan=%perl% -S cpan"
 set TAR_OPTIONS=--warning=no-unknown-keyword
