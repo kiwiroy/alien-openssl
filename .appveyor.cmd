@@ -18,6 +18,7 @@ if "%perl_type%" == "cygwin" (
     exit /b 1
   )
   set "PATH=C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\Strawberry\c\bin;%PATH%"
+  set "PERL=C:\Strawberry\perl\bin\perl.exe"
 ) else if "%perl_type%" == "system" (
   mkdir c:\dmake
   cinst -y curl
@@ -30,7 +31,6 @@ if "%perl_type%" == "cygwin" (
 )
 for /f "usebackq delims=" %%d in (`perl -MConfig -e"print $Config{make}"`) do set "make=%%d"
 set "perl=perl"
-set "PERL=%perl%"
 set "cpanm=call .appveyor.cmd cpanm"
 set "cpan=%perl% -S cpan"
 set TAR_OPTIONS=--warning=no-unknown-keyword

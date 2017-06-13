@@ -18,7 +18,7 @@ plugin 'Probe::CommandLine' => (
 ) for qw( c_rehash openssl );
 
 meta->interpolator->add_helper(config => sub {
-  my $config = _win ? 'sh ./config -v -t' : './config';
+  my $config = _win ? 'sh config' : './config';
   return $config;
 });
 
@@ -64,7 +64,7 @@ share {
   plugin 'Build::MSYS';
 
   build [
-    '%{config} no-shared --prefix=%{.install.prefix}',
+    '%{config} -v no-shared --prefix=%{.install.prefix}',
     '%{make}',
     '%{make} install_sw'
  ];
