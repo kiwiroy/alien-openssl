@@ -61,7 +61,7 @@ share {
 
   plugin Extract => 'tar.gz';
 
-  plugin 'Build::MSYS';
+  #plugin 'Build::MSYS';
 
   build [
     '%{config} -v no-shared --prefix=%{.install.prefix}',
