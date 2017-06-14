@@ -70,6 +70,7 @@ share {
     sub {
       my $build = shift;
       if (_win) {
+        require Alien::gmake;
         unshift @PATH, Alien::gmake->bin_dir;
       }
     },
