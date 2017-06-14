@@ -24,7 +24,7 @@ if "%perl_type%" == "cygwin" (
   cinst -y curl
   curl http://www.cpan.org/authors/id/S/SH/SHAY/dmake-4.12.2.2.zip -o c:\dmake\dmake.zip
   7z x c:\dmake\dmake.zip -oc:\ >NUL
-  set "PATH=c:\dmake;C:\MinGW\bin;%PATH%"
+  set "PATH=C:\MinGW\bin;%PATH%"
 ) else (
   echo.Unknown perl type "%perl_type%"! 1>&2
   exit /b 1
