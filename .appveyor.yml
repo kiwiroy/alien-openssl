@@ -15,7 +15,7 @@ install:
   - '%perl% -V'
   - 'sh --version'
   - '%cpanm% --showdeps --with-develop --with-recommends --with-configure .'
-  - '%cpanm% --installdeps -n --with-develop --with-recommends --with-configure .'
+  - '%cpanm% --quiet --installdeps -n --with-develop --with-recommends --with-configure .'
 
 build: off
 
