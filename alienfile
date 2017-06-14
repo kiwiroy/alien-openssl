@@ -72,10 +72,12 @@ share {
       if (_win) {
         require Alien::gmake;
         unshift @PATH, Alien::gmake->bin_dir;
+        local $" = "\n";
+        warn "@PATH";
       }
     },
     '%{config} no-shared --prefix=%{.install.prefix}',
-    '%{make}',
+    'gmake',
     '%{make} install_sw'
  ];
 }
