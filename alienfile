@@ -21,10 +21,7 @@ meta->interpolator->add_helper(config => sub {
   my $build  = shift;
   my $opt    = scalar(grep { /Target.*x86_64/ } split /\n/, qx/gcc -v 2>&1/) ? 'mingw64' : 'mingw';
   my $perl   = eval 'use Config; return $Config{perlpath}';
-  my @perl   = File::Spec->splitpath($perl);
-  $perl = File::Spec->catfile(@perl);
-  warn qx/set/;
-  my $config = _win ? "env HASHBANGPERL=perl PERL=$perl $perl Configure $opt" : './config';
+  my $config = _win ? "env PERL=$perl $perl Configure $opt" : './config';
   return $config;
 });
 

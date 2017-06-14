@@ -6,6 +6,7 @@ environment:
     AUTHOR_TESTING: 1
     CONFIGURE_CHECKER_WARN: 1
   matrix:
+    - perl_type: system
     - perl_type: strawberry
     - perl_type: cygwin
 
