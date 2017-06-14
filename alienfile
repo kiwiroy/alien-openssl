@@ -18,7 +18,9 @@ plugin 'Probe::CommandLine' => (
 ) for qw( c_rehash openssl );
 
 meta->interpolator->add_helper(config => sub {
-  my $config = _win ? 'sh config' : './config';
+  my $build = shift;
+  my $opt = 0 == system('gcc -v 2>&1 | grep "Target.*x86_64" > /dev/null') ? 'mingw64' : 'mingw';
+  my $config = _win ? "$^X Configure $opt" : './config';
   return $config;
 });
 
@@ -64,7 +66,7 @@ share {
   #plugin 'Build::MSYS';
 
   build [
-    '%{config} -v no-shared --prefix=%{.install.prefix}',
+    '%{config} no-shared --prefix=%{.install.prefix}',
     '%{make}',
     '%{make} install_sw'
  ];
