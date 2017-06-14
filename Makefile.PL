@@ -17,6 +17,7 @@ my %WriteMakefileArgs = (
 );
 
 $WriteMakefileArgs{BUILD_REQUIRES}{'Alien::MSYS'} = 0 if _win;
+$WriteMakefileArgs{BUILD_REQUIRES}{'Alien::gmake'} = 0 if _win;
 $WriteMakefileArgs{BUILD_REQUIRES}{'Test::Pod'} = '1.00' if $ENV{AUTHOR_TESTING};
 
 if (eval "use Alien::Build::MM; 1;") {

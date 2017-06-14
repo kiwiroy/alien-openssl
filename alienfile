@@ -3,7 +3,7 @@ use Alien::Build::Util qw( _destdir_prefix );
 use Data::Dumper;
 use Path::Tiny;
 use constant _win => $^O eq 'MSWin32';
-
+use Env qw{ @PATH };
 
 requires 'Test::Alien';
 requires 'Test::Pod' => '1.00' if $ENV{AUTHOR_TESTING};
@@ -67,6 +67,12 @@ share {
   #plugin 'Build::MSYS';
 
   build [
+    sub {
+      my $build = shift;
+      if (_win) {
+        unshift @PATH, Alien::gmake->bin_dir;
+      }
+    },
     '%{config} no-shared --prefix=%{.install.prefix}',
     '%{make}',
     '%{make} install_sw'
