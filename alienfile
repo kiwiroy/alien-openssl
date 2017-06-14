@@ -20,7 +20,8 @@ plugin 'Probe::CommandLine' => (
 meta->interpolator->add_helper(config => sub {
   my $build = shift;
   my $opt = 0 == system('gcc -v 2>&1 | grep "Target.*x86_64" > /dev/null') ? 'mingw64' : 'mingw';
-  my $config = _win ? "$^X Configure $opt" : './config';
+  system('gcc -v 2>&1');
+  my $config = _win ? "perl Configure $opt" : './config';
   return $config;
 });
 
