@@ -17,12 +17,14 @@ plugin 'Probe::CommandLine' => (
   secondary => 1,
 ) for qw( c_rehash openssl );
 
+meta->interpolator->replace_helper(make => sub { 'dmake' });
+
 meta->interpolator->add_helper(config => sub {
   my $build  = shift;
   my $opt    = scalar(grep { /Target.*x86_64/ } split /\n/, qx/gcc -v 2>&1/) ? 'mingw64' : 'mingw';
   my $perl   = eval 'use Config; return $Config{perlpath}';
-  $perl =~ s{\\}{/}g;
-  $perl =~ s{^([A-Z]):}{"/".lc($1)}e;
+  my @perl   = File::Spec->splitpath($perl);
+  $perl = File::Spec->catfile(@perl);
   my $config = _win ? "env PERL=$perl $perl Configure $opt" : './config';
   return $config;
 });
