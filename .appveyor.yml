@@ -7,7 +7,7 @@ environment:
     CONFIGURE_CHECKER_WARN: 1
   matrix:
     - perl_type: cygwin
-    - perl_type: system
+    - perl_type: strawberry
 
 install:
   - 'call .appveyor.cmd perl_setup'
