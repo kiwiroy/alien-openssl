@@ -18,10 +18,10 @@ plugin 'Probe::CommandLine' => (
 ) for qw( c_rehash openssl );
 
 meta->interpolator->add_helper(config => sub {
-  my $build = shift;
-  my $opt = scalar(grep { /Target.*x86_64/ } split /\n/, qx/gcc -v 2>&1/) ? 'mingw64' : 'mingw';
-  system('gcc -v 2>&1');
-  my $config = _win ? "perl Configure $opt" : './config';
+  my $build  = shift;
+  my $opt    = scalar(grep { /Target.*x86_64/ } split /\n/, qx/gcc -v 2>&1/) ? 'mingw64' : 'mingw';
+  my $perl   = eval 'use Config; return $Config{perlpath}';
+  my $config = _win ? "env PERL=$perl $perl Configure $opt" : './config';
   return $config;
 });
 
